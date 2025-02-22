@@ -26,12 +26,12 @@ def rateGuess(myGuess, word):
 
     for spot in range(5):
         myLetter = myGuess[spot]
-        if inSpot(myLetter, word, spot) == True:
+        if inSpot(myLetter, word, spot):
              feedback += myLetter.upper()
-        elif inWord(myLetter, word) == True:
+        elif inWord(myLetter, word):
             feedback += myLetter.lower()
         else:
-            feedback += feedback + "*"
+            feedback += "*"
 
     return feedback    
 
@@ -41,37 +41,28 @@ def main():
     content = wordFile.read()
     wordList = content.split("\n")
     todayWord = random.choice(wordList)
-    print(todayWord)
+   
 
     #User should get 6 guesses to guess
-    guessNum = 1
-    while guessNum <= 6:
+    for guessNum in range(1, 7):
+        while True:
         #Ask user for their guess
-        guess = input("Enter guess: ")
-        feedback = rateGuess(guess, todayWord)
-        print(feedback)
-
-        guessNum = guessNum +1
-        while guessNum <= 6:
-            guess = input(f"Guess {guessNum}/6: ").strip().Lower()
-    #Give feedback using on their word:
- 
-    #5 letters long
-        if len(guess) !=5 or not guess.isalpha():
-            print("Invalid Guess! Enter 5 letter word")
-            continue
+            guess = input(f"Guess {guessNum}/6: ").strip().lower() 
+        
+            if len(guess) == 5 and guess.isalpha():
+                break
+            print("Invalid Guess! Enter 5 letter word.")
 
         feedback = rateGuess(guess, todayWord)
         print(feedback)
 
         if guess == todayWord:
-           print("Winner Winner")
-           break
+            print("Winner Winner")
+            return
 
-        guessNum += 1
+    
 
-    else:
-       print(f"out of guesses! The correct word was {todayWord}")
+    print(f"out of guesses! The correct word was {todayWord}")
 
 
 if __name__ == '__main__':
